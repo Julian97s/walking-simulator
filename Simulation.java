@@ -18,7 +18,10 @@ public class Simulation {
     }
 
     public void step(){
-        for(Actor actor this.actors){
+        // indtsnciste lower snd upper bound snd pass yhodr as parameters
+        Position lower_bound = new Position(0,0);
+        Position upper_bound = new Position(9,9);
+        for(Actor actor : this.actors){
             actor.step(lower_bound, upper_bound); // got lost here, im not understanding the boundries.
         }
     }
@@ -30,15 +33,15 @@ public class Simulation {
              output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
         }
         String result = "";
-        for (int i=0; i<this.max_width;i++){
-            for (int j=0; j<this.max_height; j++){
+        for (int i=0; i<this.max_width-1;i++){
+            for (int j=0; j<this.max_height-1; j++){
                 if(output[i][j]==null){
                     result = result + "-";
                 } else {
                     result = result + output[i][j];
                 }
             }
-            result = result + "\t";
+            result = result + "\n";
         }
         return result;
     }

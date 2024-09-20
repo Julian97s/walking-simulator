@@ -22,11 +22,11 @@ public class Position {
         return new_position;
     }
 
-    public Position fitBoundries(int max__x,int min_x, int max_y, int min_y){
+    public Position fitBoundries(int min_x,int min_y, int max_x, int max_y){
         // math.min math.min
         // the bigger of the lowe bound and the smaller of the upper bound
-        int bounded_x = Math.max(min_x, Math.min(this.position_x, max__x));
-        int bounded_y = Math.max(min_y, Math.min(this.position_y, max_y));
+        int bounded_x = Math.min(max_x, Math.max(this.position_x, min_x));
+        int bounded_y = Math.min(max_y, Math.max(this.position_y, min_y));
         Position new_position = new Position(bounded_x,bounded_y);
         return new_position;
     }
