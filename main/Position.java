@@ -1,3 +1,4 @@
+package main;
 public class Position {
     private int position_x;
     private int position_y;

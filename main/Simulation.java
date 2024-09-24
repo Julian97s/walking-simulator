@@ -1,3 +1,5 @@
+package main;
+import actors.Actor;
 import java.util.ArrayList;
 import java.util.List;
 
