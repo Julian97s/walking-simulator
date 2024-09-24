@@ -32,7 +32,7 @@ public class Actor {
 
     @Override
     public String toString(){
-        String rep = "*";
+        String rep = " * ";
         return rep;
     }
 }

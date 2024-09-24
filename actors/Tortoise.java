@@ -25,7 +25,7 @@ public class Tortoise extends Actor {
 
     @Override
     public String toString(){
-        String rep = "T";
+        String rep = " T ";
         return  rep;
     }
 

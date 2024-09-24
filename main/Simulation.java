@@ -1,5 +1,7 @@
 package main;
 import actors.Actor;
+import actors.Rabbit;
+import actors.Tortoise;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,10 @@ public class Simulation {
     }
 
     public void addActor(){
-        Actor new_actor = new Actor(1,1);
-        this.actors.add(new_actor);
+        Tortoise new_tortoise = new Tortoise(1,1);
+        Rabbit new_rabbit = new Rabbit(2, 2);
+        this.actors.add(new_tortoise);
+        this.actors.add(new_rabbit);
     }
 
     public void step(){
@@ -35,10 +39,10 @@ public class Simulation {
              output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
         }
         String result = "";
-        for (int i=0; i<this.max_width-1;i++){
-            for (int j=0; j<this.max_height-1; j++){
+        for (int i=0; i<=this.max_width-1;i++){
+            for (int j=0; j<=this.max_height-1; j++){
                 if(output[i][j]==null){
-                    result = result + "-";
+                    result = result + " - ";
                 } else {
                     result = result + output[i][j];
                 }

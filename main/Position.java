@@ -24,8 +24,6 @@ public class Position {
     }
 
     public Position fitBoundries(int min_x,int min_y, int max_x, int max_y){
-        // math.min math.min
-        // the bigger of the lowe bound and the smaller of the upper bound
         int bounded_x = Math.min(max_x, Math.max(this.position_x, min_x));
         int bounded_y = Math.min(max_y, Math.max(this.position_y, min_y));
         Position new_position = new Position(bounded_x,bounded_y);
