@@ -31,7 +31,7 @@ public class Rabbit extends Actor{
             }
             
             this.current_position =this.current_position.moveBy(random_x, random_y);
-            this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPrositonY(), upper_bound.getPositionX(), upper_bound.getPrositonY());   
+            this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPositionY(), upper_bound.getPositionX(), upper_bound.getPositionY());   
             this.energy_level -= 1;
         }else {
             this.energy_level = 3;

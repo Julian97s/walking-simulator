@@ -20,7 +20,7 @@ public class Tortoise extends Actor {
             random_y = r.nextInt(-this.max_speed, this.max_speed+1);
         } 
         this.current_position =this.current_position.moveBy(random_x, random_y);
-        this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPrositonY(), upper_bound.getPositionX(), upper_bound.getPrositonY());   
+        this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPositionY(), upper_bound.getPositionX(), upper_bound.getPositionY());   
     }
 
     @Override

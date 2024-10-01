@@ -12,7 +12,7 @@ public class Position {
         return position_x;
     }
     
-    public int getPrositonY(){
+    public int getPositionY(){
         return position_y;
     }
 
@@ -28,5 +28,14 @@ public class Position {
         int bounded_y = Math.min(max_y, Math.max(this.position_y, min_y));
         Position new_position = new Position(bounded_x,bounded_y);
         return new_position;
+    }
+
+    public double distanceTo(int given_x, int given_y){
+        double distance =0;
+        double x_base = this.position_x-given_x ;
+        double y_base = this.position_y-given_y;
+        double operation = Math.pow(x_base, 2) + Math.pow(y_base, 2);
+        distance = Math.sqrt(operation);
+        return distance;
     }
 }

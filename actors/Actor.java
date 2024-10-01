@@ -5,10 +5,12 @@ import main.Position;
 public class Actor {
     protected Position current_position;
     protected int max_speed;
+    protected int score;
 
     public Actor(int initial_x, int initial_y){
         current_position = new Position(initial_x,initial_y);
-        max_speed = 1;
+        this.max_speed = 1;
+        this.score = 0;
     }
 
     public int getPositionX(){
@@ -16,7 +18,19 @@ public class Actor {
     }
     
     public int getPositionY(){
-        return current_position.getPrositonY();
+        return current_position.getPositionY();
+    }
+
+    public void addPoint(){
+        this.score += 1;
+    }
+
+    public int getScore(){
+        return this.score;
+    }
+
+    public void moveActor(int x_distance, int y_distance){
+        this.current_position = this.current_position.moveBy(x_distance, y_distance);
     }
 
     public void step(Position lower_bound, Position upper_bound){
@@ -26,9 +40,10 @@ public class Actor {
         int random_x = r.nextInt(-this.max_speed, this.max_speed+1);
         int random_y = r.nextInt(-this.max_speed, this.max_speed+1);
         this.current_position =this.current_position.moveBy(random_x, random_y);
-        this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPrositonY(), upper_bound.getPositionX(), upper_bound.getPrositonY());
+        this.current_position = this.current_position.fitBoundries(lower_bound.getPositionX(), lower_bound.getPositionY(), upper_bound.getPositionX(), upper_bound.getPositionY());
     }
     
+    // compare to another actors position that takes in another Actor a as a parameter 
 
     @Override
     public String toString(){
