@@ -13,6 +13,10 @@ public class Actor {
         this.score = 0;
     }
 
+    public Position getPosition(){
+        return this.current_position;
+    }
+
     public int getPositionX(){
         return current_position.getPositionX();
     }

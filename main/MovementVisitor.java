@@ -41,8 +41,15 @@ public class MovementVisitor {
     }
 
     private void checkClosestPrize(Actor a){
+        double distance;
         for (Prize prize : this.pricesList){
-            prize.get(a.getPositionX(),a.getPositionY());
+            distance = prize.getPosition().distanceTo(a.getPositionX(),a.getPositionY());
+            if (distance > 0){
+                this.addPrize();
+                a.addPoint();
+            } else {
+                
+            }
         }
     }
 }
