@@ -37,6 +37,8 @@ public class Rabbit extends Actor{
             this.energy_level = 3;
         }
     }
+
+    
     
 
     @Override

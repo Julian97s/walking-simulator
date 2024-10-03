@@ -30,10 +30,10 @@ public class Position {
         return new_position;
     }
 
-    public double distanceTo(int given_x, int given_y){
+    public double distanceTo(Position g_pos){
         double distance =0;
-        double x_base = this.position_x-given_x ;
-        double y_base = this.position_y-given_y;
+        double x_base = this.position_x-g_pos.getPositionX();
+        double y_base = this.position_y-g_pos.getPositionY();
         double operation = Math.pow(x_base, 2) + Math.pow(y_base, 2);
         distance = Math.sqrt(operation);
         return distance;

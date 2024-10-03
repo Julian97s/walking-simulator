@@ -8,9 +8,9 @@ import java.util.Random;
 public class MovementVisitor {
     // ATTRIBUTES
 
-    Position upper_bound;
-    Position lower_bound;
-    List<Prize> pricesList;
+    private Position upper_bound;
+    private Position lower_bound;
+    private List<Prize> pricesList;
 
 
     // METHODS
@@ -25,8 +25,9 @@ public class MovementVisitor {
     public Prize addPrize(){
         Random r = new Random();
         //create a random location within the boundries
-        int ran_x = r.nextInt(this.lower_bound.getPositionX(),this.upper_bound.getPositionX()+1);
-        int ran_y = r.nextInt(this.lower_bound.getPositionY(),this.upper_bound.getPositionY()+1);
+        int ran_x = r.nextInt(this.lower_bound.getPositionX(),this.upper_bound.getPositionX());
+        // its okay the exclusiveness because i want it to be one less otherwise it migh go out of bounce
+        int ran_y = r.nextInt(this.lower_bound.getPositionY(),this.upper_bound.getPositionY());
         // construct a prize
         Prize p = new Prize(ran_x,ran_y);
         // add to pricesList
@@ -40,16 +41,37 @@ public class MovementVisitor {
         return this.pricesList.size();
     }
 
-    private void checkClosestPrize(Actor a){
-        double distance;
+    private Prize checkClosestPrize(Actor a){
+        double lowest_distance = 2000000;
+        Prize closestPrize = null;
         for (Prize prize : this.pricesList){
-            distance = prize.getPosition().distanceTo(a.getPositionX(),a.getPositionY());
-            if (distance > 0){
+            double current_distance = prize.getPosition().distanceTo(a.getPosition());
+            if (current_distance == 0){
+                //remove it from the list. book keeping. also delite it from the diplay
+                //track if prize is in hte list of not dont show it
                 this.addPrize();
                 a.addPoint();
             } else {
-                
+                //if lowest 
+                if (current_distance < lowest_distance ){
+                    lowest_distance = current_distance;
+                    closestPrize = prize;
+                }
             }
         }
+        return closestPrize;
+    }
+
+    //
+    public void move(Tortoise t){
+        Prize closets_prize = this.checkClosestPrize(t);
+        t.moveActor(closets_prize.getPositionX(),closets_prize.getPositionY()); // how or what am i moving here?
+        t.step(this.lower_bound, this.upper_bound);
+    }
+
+    public void move(Rabbit t){
+        Prize closets_prize = this.checkClosestPrize(t);
+        t.moveActor(closets_prize.getPositionX(),closets_prize.getPositionY());
+        t.step(this.lower_bound, this.upper_bound);
     }
 }
