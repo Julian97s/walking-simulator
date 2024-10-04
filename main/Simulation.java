@@ -50,6 +50,7 @@ public class Simulation {
     @Override
     public String toString(){
         
+        // I'm creating a grid of 
         String[][] output = new String[this.upperBound.getPositionX()][this.upperBound.getPositionY()];
         for(Actor actor: this.actors){
              output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
