@@ -11,6 +11,6 @@ public class Prize extends Actor {
 
     @Override
     public String toString(){
-        return "*";
+        return " ∫ ";
     }
 }

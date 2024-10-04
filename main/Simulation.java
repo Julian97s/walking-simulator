@@ -1,19 +1,28 @@
 package main;
-import actors.Actor;
-import actors.Rabbit;
-import actors.Tortoise;
+import actors.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private int max_width;
-    private int max_height;
+    private MovementVisitor visitor;
+    private Position upperBound;
+    private Position lowerBound;
     List<Actor> actors;
 
     public Simulation(int width, int length){
-        this.max_width = width;
-        this.max_height = length;
+        this.lowerBound = new Position(0,0);
+        this.upperBound = new Position(width,length);
         actors = new ArrayList<>();
+        this.visitor = new MovementVisitor(this.lowerBound, this.upperBound);
+        Prize price1 = this.visitor.addPrize();
+        this.actors.add(price1);
+        Prize price2 = this.visitor.addPrize();
+        this.actors.add(price2);
+        Prize price3 = this.visitor.addPrize();
+        this.actors.add(price3);
+        this.upperBound = new Position(width, length);
+        this.lowerBound = new Position(0,0);
+        
     }
 
     public void addActor(){
@@ -23,24 +32,31 @@ public class Simulation {
         this.actors.add(new_rabbit);
     }
 
+    //  Updates the simulation by one frame
     public void step(){
-        // indtsnciste lower snd upper bound snd pass yhodr as parameters
-        Position lower_bound = new Position(0,0);
-        Position upper_bound = new Position(9,9);
+        if (this.visitor.getPricesCount() == 0){
+            Prize price1 = this.visitor.addPrize();
+            this.actors.add(price1);
+            Prize price2 = this.visitor.addPrize();
+            this.actors.add(price2);
+            Prize price3 = this.visitor.addPrize();
+            this.actors.add(price3);
+        }
         for(Actor actor : this.actors){
-            actor.step(lower_bound, upper_bound); // got lost here, im not understanding the boundries.
+            actor.step(this.visitor); 
         }
     }
 
     @Override
     public String toString(){
-        String[][] output = new String[this.max_width][this.max_height];
+        
+        String[][] output = new String[this.upperBound.getPositionX()][this.upperBound.getPositionY()];
         for(Actor actor: this.actors){
              output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
         }
         String result = "";
-        for (int i=0; i<=this.max_width-1;i++){
-            for (int j=0; j<=this.max_height-1; j++){
+        for (int i=0; i<=this.upperBound.getPositionX()-1;i++){
+            for (int j=0; j<=this.upperBound.getPositionY()-1; j++){
                 if(output[i][j]==null){
                     result = result + " - ";
                 } else {
@@ -49,6 +65,7 @@ public class Simulation {
             }
             result = result + "\n";
         }
+        
         return result;
     }
 
