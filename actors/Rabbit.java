@@ -27,6 +27,13 @@ public class Rabbit extends Actor{
             return true;
         }
     }
+
+    public boolean is_rabbit(Actor a){
+        if (a.getClass().equals(this.getClass())){
+            return true;
+        }
+        return false;
+    }
     
 
     @Override

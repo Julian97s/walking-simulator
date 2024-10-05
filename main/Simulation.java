@@ -7,19 +7,14 @@ public class Simulation {
     private MovementVisitor visitor;
     private Position upperBound;
     private Position lowerBound;
-    List<Actor> actors;
+    private List<Actor> actors;
 
     public Simulation(int width, int length){
         this.lowerBound = new Position(0,0);
         this.upperBound = new Position(width,length);
         actors = new ArrayList<>();
         this.visitor = new MovementVisitor(this.lowerBound, this.upperBound);
-        Prize price1 = this.visitor.addPrize();
-        this.actors.add(price1);
-        Prize price2 = this.visitor.addPrize();
-        this.actors.add(price2);
-        Prize price3 = this.visitor.addPrize();
-        this.actors.add(price3);
+        this.addPrices();
         this.upperBound = new Position(width, length);
         this.lowerBound = new Position(0,0);
         
@@ -35,12 +30,7 @@ public class Simulation {
     //  Updates the simulation by one frame
     public void step(){
         if (this.visitor.getPricesCount() == 0){
-            Prize price1 = this.visitor.addPrize();
-            this.actors.add(price1);
-            Prize price2 = this.visitor.addPrize();
-            this.actors.add(price2);
-            Prize price3 = this.visitor.addPrize();
-            this.actors.add(price3);
+            this.addPrices();
         }
         for(Actor actor : this.actors){
             actor.step(this.visitor); 
@@ -54,6 +44,7 @@ public class Simulation {
         String[][] output = new String[this.upperBound.getPositionX()][this.upperBound.getPositionY()];
         for(Actor actor: this.actors){
              output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
+             
         }
         String result = "";
         for (int i=0; i<=this.upperBound.getPositionX()-1;i++){
@@ -66,8 +57,24 @@ public class Simulation {
             }
             result = result + "\n";
         }
-        
+        // to display the scores of the tortoise and the rabbit, should i create a helper function that allows me to check for their clarr?
+        //something like a is_rabbit or is_tortoise
+        for (Actor actor : actors) {
+            // i want to know if the actor is rabbit to pull out its score 
+            if (actor.is_rabbit(actor)){
+
+            }
+            // else if the actor is_Tortoise, pull out tortoise score to print out.
+        }
         return result;
+    }
+
+    private void addPrices(){
+        if ( this.visitor.getPricesCount() == 0 ) {
+            for (int i=0;i<3;i++){
+                this.actors.add(this.visitor.addPrize());
+            }
+        }
     }
 
 }

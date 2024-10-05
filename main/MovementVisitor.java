@@ -10,7 +10,7 @@ public class MovementVisitor {
 
     private Position upper_bound;
     private Position lower_bound;
-    private List<Prize> pricesList;
+    private List<Prize> prizesList;
 
 
     // METHODS
@@ -18,7 +18,7 @@ public class MovementVisitor {
     public MovementVisitor(Position g_lower, Position g_upper){
         this.upper_bound = g_upper;
         this.lower_bound = g_lower;
-        this.pricesList = new ArrayList<>();
+        this.prizesList = new ArrayList<>();
     }
 
     // add a prize to the list
@@ -30,27 +30,29 @@ public class MovementVisitor {
         int ran_y = r.nextInt(this.lower_bound.getPositionY(),this.upper_bound.getPositionY());
         // construct a prize
         Prize p = new Prize(ran_x,ran_y);
-        // add to pricesList
-        this.pricesList.add(p);
+        // add to prizesList
+        this.prizesList.add(p);
         //return a the contructed prize
         return p;
     }
 
     //get prices count
     public int getPricesCount(){
-        return this.pricesList.size();
+        return this.prizesList.size();
     }
 
     private Prize checkClosestPrize(Actor a){
+        List<Prize> keepers = new ArrayList<>();
+        List<Prize> to_remove = new ArrayList<>();
         double lowest_distance = 2000000;
         Prize closestPrize = null;
-        for (Prize prize : new ArrayList<>(this.pricesList)){
+        for (Prize prize : this.prizesList){
             Position current_prize_pos = new Position(prize.getPositionX(),prize.getPositionY());
             Position current_actor_pos = new Position(a.getPositionX(),a.getPositionY());
             //double current_distance = prize.getPosition().distanceTo(a.getPosition()); // should i change this se i dont pass a reference to the object?
             double current_distance = current_prize_pos.distanceTo(current_actor_pos); // should i change this se i dont pass a reference to the object?
             if (current_distance == 0){
-                pricesList.remove(prize);
+                to_remove.add(prize); // if i remove direcly here, error "Current modification exception" so ill make a listo of prices to delete
                 a.addPoint();
             } else {
                 //if lowest 
@@ -59,6 +61,18 @@ public class MovementVisitor {
                     closestPrize = prize;
                 }
             }
+        }
+        // check for equal prizes in the list and to_remove list and remove if is equal. However im doing the same thing here and im still mofifing a list while im looping over it
+        // but if i make a listo of the prizes that aren't equal in both lists ill have a list of prices to 
+        if (to_remove.size()>0){
+            for (Prize prize : this.prizesList){
+                for (Prize to_rem : to_remove){
+                    if (!prize.equals(to_rem)) { // if prizes are different 
+                        keepers.add(prize);
+                    }
+                }
+            }
+            this.prizesList = keepers;
         }
         return closestPrize;
     }
@@ -119,14 +133,15 @@ public class MovementVisitor {
         // Position current_position = new Position(getPricesCount(), getPricesCount());
 
         boolean has_energy = true;
-
-        int x_modulo = (r.getPositionX()+1) % (closest_prize.getPositionX()+1); 
-        int y_modulo = (r.getPositionY()+1) % (closest_prize.getPositionY()+1);
+        //int x_modulo = (r.getPositionX()+1) % (closest_prize.getPositionX()+1); 
+        //int y_modulo = (r.getPositionY()+1) % (closest_prize.getPositionY()+1);
         int delta_x = 0;
         int delta_y = 0;
 
         if (has_energy){
-            if (x_modulo == 1 || y_modulo == 1){ 
+            //what if instead modulo im using if math.abs(x.getx - prize.getx ) == 1 then step once
+            //now when the rabbit neither the tortoise are moving when theyre once step away form the prize.
+            if (Math.abs(r.getPositionX()-closest_prize.getPositionX())==1){ 
                 if (r.getPositionX() > closest_prize.getPositionX()){
                     delta_x -= 1;
                 } else if (r.getPositionX() < closest_prize.getPositionX()){
@@ -136,7 +151,7 @@ public class MovementVisitor {
                 } else if (delta_x == 0 &&(r.getPositionY()<closest_prize.getPositionY())){
                     delta_y +=1;
                 }
-            } else if (x_modulo > 1 || y_modulo > 1){
+            } else if (Math.abs(r.getPositionX()-closest_prize.getPositionX())>1){
                 if (r.getPositionX() > closest_prize.getPositionX()){
                     delta_x -=2;
                 } else if (r.getPositionX() < closest_prize.getPositionX()){
@@ -150,7 +165,10 @@ public class MovementVisitor {
             has_energy = r.burnEnergy();
         }
         r.moveActor(delta_x,delta_y);
+        
     }
+
+    
 
     // tortouse can move 1 spet in a direction. 
     //is the prize to my right or to mi left?

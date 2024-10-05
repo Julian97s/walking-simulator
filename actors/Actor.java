@@ -37,6 +37,13 @@ public class Actor {
         this.current_position = this.current_position.moveBy(x_distance, y_distance);
     }
 
+    public boolean is_rabbit(Actor a){
+        if (a.getClass().equals(this.getClass())){ // how could i use something like this
+            return true;
+        }
+        return false;
+    }
+
     public void step(MovementVisitor visitor){
 
         // i didnt understand the instruction It must be given a lower bound and upper bound Position for its step.
