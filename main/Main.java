@@ -10,3 +10,6 @@ public class Main {
         }
     }
 }
+
+//rabbit is unable to move two steps at the time
+ 

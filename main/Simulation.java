@@ -40,10 +40,16 @@ public class Simulation {
     @Override
     public String toString(){
         
-        // I'm creating a grid of 
+        String rabbitScore = "rabbit score: "; 
+        String tortoiseScore = "tortoise score: "; 
         String[][] output = new String[this.upperBound.getPositionX()][this.upperBound.getPositionY()];
         for(Actor actor: this.actors){
-             output[actor.getPositionX()][actor.getPositionY()] = actor.toString(); 
+             output[actor.getPositionX()][actor.getPositionY()] = actor.toString();
+             if (actor instanceof Rabbit){
+                rabbitScore += actor.getScore();
+             } else if (actor instanceof Tortoise){
+                tortoiseScore += actor.getScore();
+             }
              
         }
         String result = "";
@@ -59,13 +65,7 @@ public class Simulation {
         }
         // to display the scores of the tortoise and the rabbit, should i create a helper function that allows me to check for their clarr?
         //something like a is_rabbit or is_tortoise
-        for (Actor actor : actors) {
-            // i want to know if the actor is rabbit to pull out its score 
-            if (actor.is_rabbit(actor)){
-
-            }
-            // else if the actor is_Tortoise, pull out tortoise score to print out.
-        }
+        result += "\n" + rabbitScore + "\n" + tortoiseScore;
         return result;
     }
 
