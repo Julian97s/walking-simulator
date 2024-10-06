@@ -130,45 +130,44 @@ public class MovementVisitor {
 
         // Position current_position = new Position(getPricesCount(), getPricesCount());
 
-        boolean has_energy = true;
-        int x_modulo = (closest_prize.getPositionX()+1) % (r.getPositionX()+1); 
-        int y_modulo = (closest_prize.getPositionY()+1) % (r.getPositionY()+1);
+        // rabbit will always cover vertical distance before horizontal
+
+        int x_diff = (r.getPositionX()) - (closest_prize.getPositionX()); 
+        int y_diff = (r.getPositionY()) - (closest_prize.getPositionY());
         int delta_x = 0;
         int delta_y = 0;
 
-        if (has_energy){
-            //what if instead modulo im using if math.abs(x.getx - prize.getx ) == 1 then step once
-            //now when the rabbit neither the tortoise are moving when theyre once step away form the prize.
-            //if (Math.abs(r.getPositionX()-closest_prize.getPositionX())==1){ 
-            if (x_modulo == 1 || y_modulo == 1){
+        if (r.burnEnergy()){
+            if (x_diff == 1 || x_diff == -1){ 
                 if (r.getPositionX() > closest_prize.getPositionX()){
                     delta_x -= 1;
                 } else if (r.getPositionX() < closest_prize.getPositionX()){
                     delta_x +=1;
-                } else if (delta_x == 0 &&(r.getPositionY()>closest_prize.getPositionY())){
-                    delta_y -=1;
-                } else if (delta_x == 0 &&(r.getPositionY()<closest_prize.getPositionY())){
-                    delta_y +=1;
                 }
-            } else if (x_modulo > 1 || y_modulo > 1){
+            } else if (x_diff > 1 || x_diff < -1){
                 if (r.getPositionX() > closest_prize.getPositionX()){
                     delta_x -=2;
-                } else if (r.getPositionX() < closest_prize.getPositionX()){
+                }else if (r.getPositionX() < closest_prize.getPositionX()){
                     delta_x +=2;
-                } else if (delta_x == 0 &&(r.getPositionY()>closest_prize.getPositionY())){
-                    delta_y -=2;
-                } else if (delta_x == 0 &&(r.getPositionY()<closest_prize.getPositionY())){
-                    delta_y +=2;
+                }
+            } else if (x_diff == 0) {
+                if (y_diff == 1 || y_diff == -1){
+                    if (r.getPositionY() > closest_prize.getPositionY()){
+                        delta_y -= 1;
+                    } else if (r.getPositionY() < closest_prize.getPositionY()){
+                        delta_y +=1;
+                    }
+                } else if (y_diff > 1 || y_diff < -1){
+                    if (r.getPositionY() > closest_prize.getPositionY()){
+                        delta_y -=2;
+                    }else if (r.getPositionY() < closest_prize.getPositionY()){
+                        delta_y +=2;
+                    }
                 }
             }
-            has_energy = r.burnEnergy();
         }
         r.moveActor(delta_x,delta_y);
-        
     }
-
-    
-
     // tortouse can move 1 spet in a direction. 
     //is the prize to my right or to mi left?
     // it its to my right is x = 1 and to my left x = -1 and so on.
