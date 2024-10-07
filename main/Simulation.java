@@ -31,11 +31,11 @@ public class Simulation {
     public void step(){
         // im going to bookeep the prizes in actors list and compare it to this.actors, whatever is out will be removed
 
-        if (this.visitor.getPricesCount() == 0){
-            this.addPrices();
-        }
         for(Actor actor : this.actors){
             actor.step(this.visitor); 
+        }
+        if (this.visitor.getPricesCount() == 0){
+            this.addPrices();
         }
         updateActorsList();
     }

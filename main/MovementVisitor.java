@@ -52,7 +52,7 @@ public class MovementVisitor {
             //double current_distance = prize.getPosition().distanceTo(a.getPosition()); // should i change this se i dont pass a reference to the object?
             double current_distance = current_prize_pos.distanceTo(current_actor_pos); // should i change this se i dont pass a reference to the object?
             if (current_distance == 0){
-                to_remove.add(prize); // if i remove direcly here, error "Current modification exception" so ill make a listo of prices to delete
+                to_remove.add(prize); 
                 a.addPoint();
             } else {
                 //if lowest 
@@ -104,14 +104,15 @@ public class MovementVisitor {
 
         // from the modulo all im doing is to know if i need to move in the determined axis, im adding one because when the position x or y equals to 1 the resultan modulo will always be zero and that will be a bug,
         // by adding one on both t and prize x's ill make sure that if they're different will always return a number >0 as their modulo.
+        if (closets_prize != null){
             if ( (t.getPositionX()+1) % (closets_prize.getPositionX()+1) >= 0 ){ //if module if greater than 0 it means i have to move either to the right or the left
-                 // if my x position is greater than the prize's x position, it means im to the right, and ill have to move one step to the left(decrease my x position) to get closer to my prize
-                if( t.getPositionX() > closets_prize.getPositionX() ){
-                    delta_x -= 1;
-                 // else if im to the left of my prize, ill have to take one step to the right (increase my x position)
-                } else if ( t.getPositionX() < closets_prize.getPositionX() ){
-                    delta_x += 1;
-                }
+             // if my x position is greater than the prize's x position, it means im to the right, and ill have to move one step to the left(decrease my x position) to get closer to my prize
+            if( t.getPositionX() > closets_prize.getPositionX() ){
+                delta_x -= 1;
+             // else if im to the left of my prize, ill have to take one step to the right (increase my x position)
+            } else if ( t.getPositionX() < closets_prize.getPositionX() ){
+                delta_x += 1;
+            }
             }
             if ((t.getPositionY()+1) % (closets_prize.getPositionY()+1) >= 0 ){ //if my reminder is greater than 0 i have to move up or down
                 // if my position in y is greater than the prize's y, it means im above the prize and i have to take a step south 
@@ -122,7 +123,8 @@ public class MovementVisitor {
                     delta_y += 1;
                 }
             }
-            t.moveActor(delta_x,delta_y); // now ill move my toroise closer to the prize.
+        }   
+        t.moveActor(delta_x,delta_y); // now ill move my toroise closer to the prize.
     }
 
     public void move(Rabbit r){
@@ -132,36 +134,39 @@ public class MovementVisitor {
 
         // rabbit will always cover vertical distance before horizontal
 
-        int x_diff = (r.getPositionX()) - (closest_prize.getPositionX()); 
-        int y_diff = (r.getPositionY()) - (closest_prize.getPositionY());
+
         int delta_x = 0;
         int delta_y = 0;
 
-        if (r.burnEnergy()){
-            if (x_diff == 1 || x_diff == -1){ 
-                if (r.getPositionX() > closest_prize.getPositionX()){
-                    delta_x -= 1;
-                } else if (r.getPositionX() < closest_prize.getPositionX()){
-                    delta_x +=1;
-                }
-            } else if (x_diff > 1 || x_diff < -1){
-                if (r.getPositionX() > closest_prize.getPositionX()){
-                    delta_x -=2;
-                }else if (r.getPositionX() < closest_prize.getPositionX()){
-                    delta_x +=2;
-                }
-            } else if (x_diff == 0) {
-                if (y_diff == 1 || y_diff == -1){
-                    if (r.getPositionY() > closest_prize.getPositionY()){
-                        delta_y -= 1;
-                    } else if (r.getPositionY() < closest_prize.getPositionY()){
-                        delta_y +=1;
+        if (closest_prize != null){
+            int x_diff = (r.getPositionX()) - (closest_prize.getPositionX()); 
+            int y_diff = (r.getPositionY()) - (closest_prize.getPositionY());
+            if (r.burnEnergy()){
+                if (x_diff == 1 || x_diff == -1){ 
+                    if (r.getPositionX() > closest_prize.getPositionX()){
+                        delta_x -= 1;
+                    } else if (r.getPositionX() < closest_prize.getPositionX()){
+                        delta_x +=1;
                     }
-                } else if (y_diff > 1 || y_diff < -1){
-                    if (r.getPositionY() > closest_prize.getPositionY()){
-                        delta_y -=2;
-                    }else if (r.getPositionY() < closest_prize.getPositionY()){
-                        delta_y +=2;
+                } else if (x_diff > 1 || x_diff < -1){
+                    if (r.getPositionX() > closest_prize.getPositionX()){
+                        delta_x -=2;
+                    }else if (r.getPositionX() < closest_prize.getPositionX()){
+                        delta_x +=2;
+                    }
+                } else if (x_diff == 0) {
+                    if (y_diff == 1 || y_diff == -1){
+                        if (r.getPositionY() > closest_prize.getPositionY()){
+                            delta_y -= 1;
+                        } else if (r.getPositionY() < closest_prize.getPositionY()){
+                            delta_y +=1;
+                        }
+                    } else if (y_diff > 1 || y_diff < -1){
+                        if (r.getPositionY() > closest_prize.getPositionY()){
+                            delta_y -=2;
+                        }else if (r.getPositionY() < closest_prize.getPositionY()){
+                            delta_y +=2;
+                        }
                     }
                 }
             }
