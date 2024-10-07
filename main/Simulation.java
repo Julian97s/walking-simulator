@@ -29,12 +29,15 @@ public class Simulation {
 
     //  Updates the simulation by one frame
     public void step(){
+        // im going to bookeep the prizes in actors list and compare it to this.actors, whatever is out will be removed
+
         if (this.visitor.getPricesCount() == 0){
             this.addPrices();
         }
         for(Actor actor : this.actors){
             actor.step(this.visitor); 
         }
+        updateActorsList();
     }
 
     @Override
@@ -69,12 +72,32 @@ public class Simulation {
         return result;
     }
 
-    private void addPrices(){
+    public void addPrices(){
         if ( this.visitor.getPricesCount() == 0 ) {
             for (int i=0;i<3;i++){
                 this.actors.add(this.visitor.addPrize());
             }
         }
     }
+
+    
+    private void updateActorsList(){
+        List<Actor> new_list = new ArrayList<>();
+        List<Prize> prizes = this.visitor.getCopyPrizes();
+        for (int i =0; i<prizes.size(); i++){
+            for(int j=0; j<this.actors.size(); j++){ 
+                if (prizes.get(i).equals(this.actors.get(j))){
+                    new_list.add(prizes.get(i));
+                }
+            }
+        }
+        for (Actor actor : this.actors){
+            if (actor instanceof Rabbit || actor instanceof Tortoise){
+                new_list.add(actor);
+            }
+        }
+        this.actors = new_list;
+    }
+ 
 
 }

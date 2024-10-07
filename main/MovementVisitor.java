@@ -172,4 +172,8 @@ public class MovementVisitor {
     //is the prize to my right or to mi left?
     // it its to my right is x = 1 and to my left x = -1 and so on.
     // step intesd of having the bounds as paramethers will have the movement visitor
+    public List getCopyPrizes(){
+        List<Prize> copy = new ArrayList<>(this.prizesList);
+        return copy;
+    }
 }
